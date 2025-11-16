@@ -11,21 +11,21 @@ public class BaggingAreaObserverTest {
         Session session = station.getSession();
         BaggingArea bag = station.getBaggingArea();
 
-        // Attach a concrete observer that blocks the session on discrepancy
+        // observer that blocks the session on
         SessionBlocker blocker = new SessionBlocker(session);
         bag.attach(blocker);
 
-        // Add a 1.0 kg item; expected weight should increase
+        // Add a random item
         Item milk = new Item("SKU1", "Milk 1L", 3.99, 1.0);
         bag.addItem(milk);
 
-        // Force a mismatch on the scale (simulate real hardware via test seam)
+        // Force a mismatch on the scale
         bag.getScale().setWeightForTest(0.2);
 
-        // Notify observers -> SessionBlocker should set blocked = true
+        // SessionBlocker should set blocked = true - should notify
         bag.notifyObservers();
 
-        assertTrue(session.isBlocked(), "Session should be blocked when scale ≠ expected");
+        assertTrue(session.isBlocked(), "Session should be blocked when scale =! expected");
     }
 
     @Test
@@ -36,15 +36,15 @@ public class BaggingAreaObserverTest {
         VisualAlert alert = new VisualAlert();
         bag.attach(alert);
 
-        // Start matched (0 expected, 0 measured)
+        // Start matched
         bag.getScale().setWeightForTest(0.0);
         bag.notifyObservers();
         assertFalse(alert.isAlertVisible(), "No discrepancy → alert off");
 
-        // Create a mismatch
+        // Create mismatch
         Item chips = new Item("SKU2", "Chips", 2.49, 0.3);
         bag.addItem(chips);
-        bag.getScale().setWeightForTest(0.0);  // wrong actual weight
+        bag.getScale().setWeightForTest(0.0);  // this is the wrong actual weight
         bag.notifyObservers();
 
         assertTrue(alert.isAlertVisible(), "Mismatch → alert should be visible");
