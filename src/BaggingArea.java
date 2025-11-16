@@ -7,6 +7,7 @@ public class BaggingArea implements Subject {
     private final Scale scale = new Scale();
     private double expectedWeight = 0.0;
     private double tolerance = 0.05; // 5% tolerance
+    private boolean testDiscrepancy = false;
 
     public void addItem(Item item) {
         items.add(item);
@@ -26,6 +27,10 @@ public class BaggingArea implements Subject {
         if (expectedWeight == 0) return Math.abs(actual) > 1e-6;
         double diffRatio = Math.abs(actual - expectedWeight) / expectedWeight;
         return diffRatio > tolerance;
+    }
+
+    public void setHasDiscrepancyForTest(boolean state) {
+        this.testDiscrepancy = state;
     }
 
     public double getExpectedWeight() { return expectedWeight; }
