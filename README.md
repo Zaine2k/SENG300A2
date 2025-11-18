@@ -23,6 +23,7 @@ It also includes unit tests using JUnit 5 and a simple Main demo.
 - Ensure:
   - src/main/java is marked as Sources Root
   - src/test/java is marked as Test Sources Root
+  - To check project builds, select the 'Main' class file and run it.
 
 
 - Run tests through IntelliJ
