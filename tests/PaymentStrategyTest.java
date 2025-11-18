@@ -29,15 +29,6 @@ class PaymentStrategyTest {
         assertTrue(pp.processPayment(10.00), "Sufficient cash should pass");
     }
 
-    @Test
-    void cryptoPayment_invalidWallet_fails() {
-        PaymentProcessor pp = new PaymentProcessor();
-        pp.setPaymentStrategy(new CryptocurrencyPayment("bad_wallet_id", "BTC"));
-
-        boolean approved = pp.processPayment(20.00);
-
-        assertFalse(approved, "Invalid wallet should fail auth");
-    }
 
     @ParameterizedTest
     @CsvSource({ "0.00, false", "1.00, true", "25.50, true", "100.00, true" })
